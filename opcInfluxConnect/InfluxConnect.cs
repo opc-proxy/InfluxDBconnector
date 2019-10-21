@@ -8,7 +8,7 @@ using OpcProxyClient;
 using NLog;
 
 namespace OpcInfluxConnect{
-    class InfluxImpl : IOPCconnect {
+    public class InfluxImpl : IOPCconnect {
         serviceManager _serv;
         public static Logger logger = LogManager.GetCurrentClassLogger();
         public void setServiceManager(serviceManager serv){
