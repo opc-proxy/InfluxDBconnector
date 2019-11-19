@@ -1,7 +1,7 @@
 using System;
 using OpcProxyCore;
 using Newtonsoft.Json.Linq;
-
+using System.Threading;
 using InfluxDB.Collector;
 using OpcProxyClient;
 
@@ -33,7 +33,7 @@ namespace OpcInfluxConnect{
             }
         }
 
-        public void init(JObject config){
+        public void init(JObject config, CancellationTokenSource cts){
             
             try{
                 Metrics.Collector = new CollectorConfiguration()
@@ -46,6 +46,11 @@ namespace OpcInfluxConnect{
             catch(Exception e){
                 logger.Error(e, "Problems in connecting to Influx DB");
             }
+        }
+
+        public void clean(){
+            Metrics.Close();
+            logger.Debug("Influx DB connection closed");
         }
         
     }
