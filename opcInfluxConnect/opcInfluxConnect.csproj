@@ -3,7 +3,7 @@
   <PropertyGroup>
 	  <TargetFramework>netstandard2.0</TargetFramework>
 	  <PackageId>opcProxy.InfluxDBConnector</PackageId>
-	  <Version>0.0.3</Version>
+	  <Version>0.1.0</Version>
 	  <Authors>Alessandro Manfredini</Authors>
 	  <Company>University of Zurich</Company>
   </PropertyGroup>
@@ -12,7 +12,11 @@
     <PackageReference Include="InfluxDB.Collector" Version="1.1.1-dev-10109" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NLog" Version="4.6.7" />
-    <PackageReference Include="opcProxy.core" Version="0.0.3" />
+<!--<PackageReference Include="opcProxy.core" Version="0.1.1" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\opc-core\opcProxyCore\opcProxyCore.csproj" />
   </ItemGroup>
 
 </Project>
