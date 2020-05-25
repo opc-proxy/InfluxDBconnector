@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="InfluxDB.Collector" Version="1.1.1-dev-10109" />
-    <PackageReference Include="opcProxy.core" Version="0.2.0" />
+    <PackageReference Include="InfluxDB.Client" Version="1.8.0" />
+    <PackageReference Include="opcProxy.core" Version="0.2.1" />
   </ItemGroup>
 
 </Project>
