@@ -11,7 +11,7 @@ namespace Test
     public class UnitTest1
     {
         serviceManager sm;
-        OpcInflux influx;
+        InfluxConnect influx;
         public UnitTest1()
         {
             var json = JObject.Parse(@"
@@ -35,7 +35,7 @@ namespace Test
             Environment.SetEnvironmentVariable("OPC_INFLUX_TOKEN","6_slTQpvMu67fhqOxBIlS9WTJGkadjHvaYhgvls95POrtVA9m48yZuKNyr5NidnA8P9Fd4hRB6ZoCqLZqXd5GQ==");
             //sm = new serviceManager(new string[] {""});
             sm = new serviceManager(json);
-            influx = new OpcInflux();
+            influx = new InfluxConnect();
             sm.addConnector(influx);
             Task.Run( () => sm.run() );
             Console.WriteLine("Warming up...");

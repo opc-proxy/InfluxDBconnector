@@ -11,7 +11,7 @@ using OpcProxyClient;
 using OpcProxyCore;
 
 namespace OpcInfluxConnect {
-    public class OpcInflux : IOPCconnect {
+    public class InfluxConnect : IOPCconnect {
         serviceManager _serv;
         public static Logger logger = LogManager.GetCurrentClassLogger ();
 
