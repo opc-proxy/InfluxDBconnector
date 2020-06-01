@@ -42,7 +42,7 @@ namespace OpcInfluxConnect {
             try {
                 _conf = config.ToObject<InfluxConfigWrapper>();
                 string Url = "http://"+_conf.influx.host + ":" + _conf.influx.port.ToString();
-                string token = Environment.GetEnvironmentVariable("OPC_INFLUX_TOKEN") ?? "";
+                string token = Environment.GetEnvironmentVariable("OPC_INFLUXDB_TOKEN") ?? "";
 
                 var client_opt = new InfluxDBClientOptions.Builder()
                     .Url(Url)
@@ -51,6 +51,7 @@ namespace OpcInfluxConnect {
                     .Org(_conf.influx.organizationName)
                     .ReadWriteTimeOut(TimeSpan.FromMilliseconds(_conf.influx.timeoutMs))
                     .TimeOut(TimeSpan.FromMilliseconds(_conf.influx.timeoutMs))
+                    .LogLevel(InfluxDB.Client.Core.LogLevel.None)
                     .Build();
 
                 client = InfluxDBClientFactory.Create( client_opt );
@@ -79,6 +80,7 @@ namespace OpcInfluxConnect {
         }
 
         public void clean () {
+            writeApi?.Flush();
             writeApi?.Dispose ();
             client?.Dispose ();
             logger.Info ("Influx DB connection closed");
@@ -112,7 +114,7 @@ namespace OpcInfluxConnect {
             port = 9999;
             timeoutMs = 10000;
             batchSize = 1000;
-            flushIntervalMs = 5000;
+            flushIntervalMs = 2000;
             retryIntervalMs = 1000;
         }
     }

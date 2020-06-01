@@ -26,13 +26,13 @@ namespace Test
                         'whiteList':['MyVariable']
                     },
                     'influx':{
-                        'organizationName' : 'dsi',
-                        'bucketName' : 'peppo4' 
+                        'organizationName' : 'jo',
+                        'bucketName' : 'prova' 
                     }
                 }
             ");
 
-            Environment.SetEnvironmentVariable("OPC_INFLUX_TOKEN","6_slTQpvMu67fhqOxBIlS9WTJGkadjHvaYhgvls95POrtVA9m48yZuKNyr5NidnA8P9Fd4hRB6ZoCqLZqXd5GQ==");
+            Environment.SetEnvironmentVariable("OPC_INFLUXDB_TOKEN","CORCd-2ILX_O9_ZybBKkVCgizxaRy_dI3B7uVIMYbmdy32XlHDXUK_D-zhws0lrVIV6GxNTSU_7ASJVYqWLdVg==");
             //sm = new serviceManager(new string[] {""});
             sm = new serviceManager(json);
             influx = new InfluxConnect();
