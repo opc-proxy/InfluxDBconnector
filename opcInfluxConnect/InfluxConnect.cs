@@ -25,15 +25,23 @@ namespace OpcInfluxConnect {
         public void OnNotification (object sub, MonItemNotificationArgs items) {
 
             foreach (var itm in items.values) {
+                Console.WriteLine("Got updated val");
                 if (DataValue.IsBad (itm)) continue;
-                dynamic value = itm.Value;
+                if(itm.Value.GetType() == typeof(String)) continue;
+                
+                double value = 0;
+                if(itm.Value.GetType() == typeof(Boolean)){
+                    if((bool)itm.Value) value = 1.0;
+                    else value = 0.0;
+                }
+                else value = (double)Convert.ChangeType(itm.Value, typeof(double));
+
                 var point = PointData.Measurement(_conf.opcSystemName)
                     .Tag ("Name", items.name)
-                    .Field ("value", value)
-                    .Timestamp (itm.SourceTimestamp.ToUniversalTime (), WritePrecision.Ms);
+                    .Field ("value", value) 
+                    .Timestamp(DateTime.UtcNow.ToUniversalTime(), WritePrecision.Ms );
 
                 writeApi.WritePoint(point);
-
                 logger.Debug("Write to influxDB value for {0} val {1}", items.name, itm.Value.ToString());
             }
         }

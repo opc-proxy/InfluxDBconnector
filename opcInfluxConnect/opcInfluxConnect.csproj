@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="InfluxDB.Client" Version="1.8.0" />
-    <PackageReference Include="opcProxy.core" Version="0.2.1" />
+    <PackageReference Include="opcProxy.core" Version="0.2.2" />
   </ItemGroup>
 
 </Project>
