@@ -25,10 +25,10 @@ namespace OpcInfluxConnect {
         public void OnNotification (object sub, MonItemNotificationArgs items) {
 
             foreach (var itm in items.values) {
-                Console.WriteLine("Got updated val");
+                logger.Debug("Got updated value");
                 if (DataValue.IsBad (itm)) continue;
+                if(itm.Value == null) continue;
                 if(itm.Value.GetType() == typeof(String)) continue;
-                
                 double value = 0;
                 if(itm.Value.GetType() == typeof(Boolean)){
                     if((bool)itm.Value) value = 1.0;
@@ -45,7 +45,12 @@ namespace OpcInfluxConnect {
                 logger.Debug("Write to influxDB value for {0} val {1}", items.name, itm.Value.ToString());
             }
         }
-        public async void init (JObject config, CancellationTokenSource cts) {
+        /// <summary>
+        /// This must be synctronous
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="cts"></param>
+        public void init (JObject config, CancellationTokenSource cts) {
 
             try {
                 _conf = config.ToObject<InfluxConfigWrapper>();
@@ -63,13 +68,15 @@ namespace OpcInfluxConnect {
                     .Build();
 
                 client = InfluxDBClientFactory.Create( client_opt );
-                var health = await client.HealthAsync ();
+                var t = client.HealthAsync(); t.Wait();
+                var health = t.Result;
                 if (health.Status != HealthCheck.StatusEnum.Pass) throw new Exception ("Connection failed with host: " + Url);
 
                 // query to test connection... is the only way I could find
                 // Note: the following lines will throw in case
                 var flux = $"from(bucket:\"{_conf.influx.bucketName}\") |> range(start: 0) |> limit(n: 1)";
-                var fluxTables = await client.GetQueryApi().QueryAsync(flux);
+                var t1 = client.GetQueryApi().QueryAsync(flux); t1.Wait();
+                var fluxTables = t1.Result; 
                 
                 var write_opt = new WriteOptions.Builder()
                     .BatchSize(_conf.influx.batchSize)
@@ -85,6 +92,7 @@ namespace OpcInfluxConnect {
                 logger.Fatal ("Problems in initializing connection to InfluxDB. Quiting...");
                 logger.Error (e.Message);
             }
+
         }
 
         public void clean () {
