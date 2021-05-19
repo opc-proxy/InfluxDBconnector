@@ -56,7 +56,6 @@ namespace OpcInfluxConnect {
                 _conf = config.ToObject<InfluxConfigWrapper>();
                 string Url = "http://"+_conf.influx.host + ":" + _conf.influx.port.ToString();
                 string token = Environment.GetEnvironmentVariable("OPC_INFLUXDB_TOKEN") ?? "";
-
                 var client_opt = new InfluxDBClientOptions.Builder()
                     .Url(Url)
                     .AuthenticateToken(token.ToCharArray())
